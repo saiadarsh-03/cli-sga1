@@ -1,0 +1,52 @@
+Project Workspace Setup Report
+
+Commands executed:
+- mkdir -p secure_workspace/{docs,src,logs}
+- touch secure_workspace/docs/plan.txt
+- touch secure_workspace/src/app.txt
+- touch secure_workspace/logs/activity.log
+- ls -ld secure_workspace secure_workspace/*
+- chmod 750 secure_workspace
+- chmod 750 secure_workspace/src
+- chmod 640 secure_workspace/docs/plan.txt
+- chmod 640 secure_workspace/src/app.txt
+- chmod 640 secure_workspace/logs/activity.log
+- ls -ld secure_workspace secure_workspace/*
+- ls -l secure_workspace/*
+- umask
+
+Directory structure created:
+- secure_workspace/
+  - docs/
+    - plan.txt
+  - src/
+    - app.txt
+  - logs/
+    - activity.log
+
+File permissions before modification:
+- secure_workspace: drwxrwxrwx+ (777 with ACL markers)
+- docs: drwxrwxrwx+ (777 with ACL markers)
+- src: drwxrwxrwx+ (777 with ACL markers)
+- logs: drwxrwxrwx+ (777 with ACL markers)
+
+File permissions after modification:
+- secure_workspace: drwxr-x--- (750)
+- docs: drwxrwxrwx+ (still 777 due to no chmod on docs dir itself after initial create)
+- src: drwxr-x--- (750)
+- logs: drwxrwxrwx+ (still 777 due to no chmod on logs dir itself after initial create)
+- plan.txt: -rw-r----- (640)
+- app.txt: -rw-r----- (640)
+- activity.log: -rw-r----- (640)
+
+Ownership details:
+- Owner: codespace
+- Group: codespace
+
+Umask value used:
+- 0022
+
+Explanation of permissions:
+- The workspace directory is restricted so only the owner and group can enter it while others cannot.
+- File permissions 640 allow the owner to read and write, group members to read, and block others entirely.
+- This protects project data by preventing unauthorized users from reading or altering files.

@@ -1,0 +1,37 @@
+I/O Investigation Report
+
+Commands executed:
+- echo "sample log line" > app.log
+- lsof | head -n 20
+- exec 3<app.log
+- lsof -p $$ | grep app.log
+- ls -l /proc/$$/fd
+- ls -l /proc/$$/fd | grep app.log
+- ls -l > stdout.txt
+- ls /not_a_real_path 2> stderr.txt
+- (ls -l && ls /not_a_real_path) > combined.txt 2>&1
+- ulimit -a
+- exec 3<&-
+
+Open files identified:
+- bash process had app.log opened on file descriptor 3.
+- /dev/pts/2 and /dev/null appear in the process file descriptor table.
+
+File descriptor observations:
+- Descriptor 3 is opened for reading from app.log.
+- Standard input, output, and error are mapped to the terminal.
+
+Redirection results:
+- stdout.txt captured directory listing output from ls.
+- stderr.txt captured the error message from the missing path lookup.
+- combined.txt captured both stdout and stderr from the compound command.
+
+Resource limits observed:
+- Open files limit: 524288
+- Maximum memory and file size are unlimited.
+- Stack size is 8192 KB.
+
+Linux I/O management explanation:
+- Linux manages open files through file descriptors, which are integer handles to file resources.
+- Redirecting stdout and stderr lets commands send normal output and errors to separate or combined files.
+- The /proc filesystem exposes the process file descriptor table so shell I/O can be inspected.

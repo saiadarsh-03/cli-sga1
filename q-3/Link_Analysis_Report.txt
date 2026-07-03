@@ -1,0 +1,36 @@
+Link Analysis Report
+
+Commands executed:
+- echo "Linux link test file" > original.txt
+- ln original.txt hardlink.txt
+- ln -s original.txt symlink.txt
+- ls -li
+- stat original.txt hardlink.txt symlink.txt
+- cat original.txt
+- cat hardlink.txt
+- cat symlink.txt
+- rm original.txt
+- ls -li
+- cat hardlink.txt
+- cat symlink.txt
+
+Inode numbers:
+- original.txt: 1310803
+- hardlink.txt: 1310803
+- symlink.txt: 1310804
+
+Comparison:
+- hardlink.txt and original.txt share the same inode and are equivalent names for the same data.
+- symlink.txt has a different inode and points to original.txt by path.
+
+Effect of deleting the original file:
+- hardlink.txt kept the file contents because the inode remained referenced.
+- symlink.txt became broken because it referenced the deleted original file path.
+
+Metadata collected:
+- original.txt and hardlink.txt: regular files, 21 bytes, permission 0666, link count 2.
+- symlink.txt: symbolic link, 12 bytes, permission 0777, link count 1.
+
+Conclusions:
+- Hard links provide a second directory entry to the same file data, preserving access even when one name is deleted.
+- Symbolic links are separate path-based references that fail if the target is removed.
